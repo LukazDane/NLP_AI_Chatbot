@@ -1,0 +1,14 @@
+- NeuralNet() Report - 
+epoch 100/1000, loss=1.0560
+epoch 200/1000, loss=0.2483
+epoch 300/1000, loss=0.0165
+epoch 400/1000, loss=0.0259
+epoch 500/1000, loss=0.0036
+epoch 600/1000, loss=0.0017
+epoch 700/1000, loss=0.0060
+epoch 800/1000, loss=0.0008
+epoch 900/1000, loss=0.0014
+epoch 1000/1000, loss=0.0011
+final loss, loss=0.0011
+
+- AdvancedNeuralNet() Report -

@@ -1,10 +1,52 @@
 import json
+import re
 import numpy as np
+import pandas as pd
 import torch
-import torch.nn as nn 
+import random
+import transformers
+import matplotlib.pyplot as plt
+import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-from model import NeuralNet
+from model import AdvancedNeuralNet, NeuralNet
 from nltk_utils import tokenize, stem, bag_of_words
+from transformers import AutoModel, BertTokenizerFast
+from sklearn.preprocessing import LabelEncoder
+
+
+for intent in intents['intents']:
+    tag = intent['tag']
+    tags.append(tag)
+    for pattern in intent['patterns']:
+        w = tokenize(pattern)
+        all_words.extend(w)
+        xy.append((w, tag))
+# Covert json data to a dataframe
+rows = []
+for intent in intents['intents']:
+    # Flatten the patterns
+    for pattern in intent['patterns']:
+        pattern = re.sub(r'[^a-zA-Z ]+', '', pattern)
+        rows.append([pattern, intent['tag']])
+
+filename = "intents.csv"
+# writing to csv file
+with open(filename, 'w') as csvfile:
+    # creating a csv writer object
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(['text', 'label'])
+    csvwriter.writerows(rows)
+
+df = pd.read_csv(filename)
+
+# Converting the labels into encodings
+le = LabelEncoder()
+df['label'] = le.fit_transform(df['label'])
+train_text, train_labels = df['text'], df['label']
+# Load the BERT tokenizer
+tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
+# Import BERT-base pretrained model
+bert = AutoModel.from_pretrained("bert-base-uncased")
 with open('intents.json', 'r') as f:
     intents = json.load(f)
 
@@ -22,7 +64,7 @@ for intent in intents['intents']:
 
 print(all_words)
 ignore_words = ['?', '!', '.', ',']
-#We don't want punctuation marks
+# We don't want punctuation marks
 all_words = [stem(w) for w in all_words if w not in ignore_words]
 
 print("---------------")
@@ -32,7 +74,7 @@ print(all_words)
 all_words = sorted(set(all_words))
 tags = sorted(set(tags))
 
-#Now we are creating the lists to train our data
+# Now we are creating the lists to train our data
 X_train = []
 y_train = []
 for (pattern_sentence, tag) in xy:
@@ -41,12 +83,12 @@ for (pattern_sentence, tag) in xy:
     label = tags.index(tag)
     y_train.append(label)
 
-#Convert into a numpy array
+# Convert into a numpy array
 X_train = np.array(X_train)
 y_train = np.array(y_train)
 
 
-#Create a new Dataset
+# Create a new Dataset
 class ChatDataset(Dataset):
     def __init__(self):
         self.n_samples = len(X_train)
@@ -59,7 +101,10 @@ class ChatDataset(Dataset):
     def __len__(self):
         return self.n_samples
 
-#TODO: How do these hyperparameters affect optimization of our chatbot? 
+
+# TODO: How do these hyperparameters affect optimization of our chatbot?
+# Batch size sets the number of samples we work through, hidden size is determining the number of features to "remember" as we go through the data. Apparently is usually a good idea to set it to the number of features in the data.
+# Output size is the number of classes we have. Learning rate is the speed at which we update our weight and the epoch is the number of times we go through the data.
 batch_size = 8
 hidden_size = 8
 output_size = len(tags)
@@ -75,40 +120,44 @@ print(output_size, tags)
 dataset = ChatDataset()
 train_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True)
 
-#The below function helps push to GPU for training if available
+# The below function helps push to GPU for training if available
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = NeuralNet(input_size, hidden_size, output_size).to(device)
-
+# model = NeuralNet(input_size, hidden_size, output_size).to(device)
+model = AdvancedNeuralNet(input_size, hidden_size, output_size).to(device)
 #Loss and Optimizer
 
-#TODO: Experiment with another optimizer and note any differences in loss of our model. Does the final loss increase or decrease? 
-#TODO CONT: Speculate on why your changed optimizer may increase or decrease final loss
+# TODO: Experiment with another optimizer and note any differences in loss of our model. Does the final loss increase or decrease?
+# Loss increases.
+# TODO CONT: Speculate on why your changed optimizer may increase or decrease final loss
+# the SGD optimizer had a higher loss than Adam optimizer in this case because Adam optimizer is more stable and SGD is not. SGD is more concerned with the gradient and Adam is more concerned with the weights.
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+# optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate) # SGD is a stochastic gradient descent algorithm - higher loss in this case
+
 
 for epoch in range(num_epochs):
     for (words, labels) in train_loader:
         words = words.to(device)
         labels = labels.to(device)
 
-        #Forward pass
+        # Forward pass
         outputs = model(words)
         loss = criterion(outputs, labels)
 
-        #backward and optimizer step 
+        # backward and optimizer step
         optimizer.zero_grad()
 
-        #Calculate the backpropagation
+        # Calculate the backpropagation
         loss.backward()
         optimizer.step()
 
-    #Print progress of epochs and loss for every 100 epochs
-    if (epoch +1) % 100 == 0:
+    # Print progress of epochs and loss for every 100 epochs
+    if (epoch + 1) % 100 == 0:
         print(f'epoch {epoch+1}/{num_epochs}, loss={loss.item():.4f}')
 
 print(f'final loss, loss={loss.item():.4f}')
 
-    #Need to save the data 
+# Need to save the data
 data = {
     "model_state": model.state_dict(),
     "input_size": input_size,
@@ -122,4 +171,4 @@ FILE = "data.pth"
 torch.save(data, FILE)
 
 print(f'training complete, file saved to {FILE}')
-#Should save our training data to a pytorch file called "data"
+# Should save our training data to a pytorch file called "data"
