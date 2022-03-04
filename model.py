@@ -37,7 +37,7 @@ class AdvancedNeuralNet(nn.Module):
         # relu activation function
         self.relu = nn.ReLU()
         # dense layer
-        self.l1 = nn.Linear(input_size, hidden_size)
+        self.l1 = nn.Linear(768, input_size)
         self.l2 = nn.Linear(input_size, hidden_size)
         self.l3 = nn.Linear(hidden_size, num_classes)
         # softmax activation function

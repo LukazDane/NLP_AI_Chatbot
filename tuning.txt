@@ -1,0 +1,40 @@
+- Learning rate adjusted from 0.001 to 0.1(traditional standard)
+epoch 100/1000, loss=0.942
+epoch 200/1000, loss=0.964
+epoch 300/1000, loss=0.957
+epoch 400/1000, loss=0.984
+epoch 500/1000, loss=0.991
+epoch 600/1000, loss=1.000
+epoch 700/1000, loss=0.998
+epoch 800/1000, loss=0.966
+epoch 900/1000, loss=0.978
+epoch 1000/1000, loss=0.989
+
+Final Loss: 0.980
+-----------------------------------------------------------------
+- Epochs reduced to 500 & learning rate 0.1
+epoch 100/500, loss=0.973
+epoch 200/500, loss=0.974
+epoch 300/500, loss=0.985
+epoch 400/500, loss=0.993
+epoch 500/500, loss=0.970
+
+Final Loss: 0.975
+-----------------------------------------------------------------
+- Epochs reduced to 500, learning rate returned to 0.001, Decay rate = to Epochs/learning rate, momentum 0.8 (momentum can be used to speed up the learning process)
+epoch 100/500, loss=0.618
+epoch 200/500, loss=0.558
+epoch 300/500, loss=0.366
+epoch 400/500, loss=0.404
+epoch 500/500, loss=0.252
+
+Final Loss: 0.349
+-----------------------------------------------------------------
+- Epochs reduced to 500, learning rate returned to 0.001, Decay rate = 0.1, momentum 0.8
+epoch 100/500, loss=0.791
+epoch 200/500, loss=0.473
+epoch 300/500, loss=0.288
+epoch 400/500, loss=0.220
+epoch 500/500, loss=0.154
+
+Final Loss: 0.177

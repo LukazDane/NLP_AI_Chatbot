@@ -1,0 +1,7 @@
+Most of the informaation we require to move this project into something more modular is in data.pth. 
+Creating a basic webpage, we can build a simple page with a form that takes in user input. With bootstrap or 
+something similar, we can set up a text box beneath our form to render the responses from the bot or create 
+dynamic routes that take us to a display page for each response. Next we simply add in some form validation to
+ensure that users are not able to input any code or text that would break the bot, add some styling, and deploy. 
+For a bot that's even simpler than what we've done here, i would suggest using flask and one of the many 
+chatbot specific librairies that you can find and import.

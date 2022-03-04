@@ -12,3 +12,15 @@ epoch 1000/1000, loss=0.0011
 final loss, loss=0.0011
 
 - AdvancedNeuralNet() Report -
+epoch 100/1000, loss=0.733
+epoch 200/1000, loss=0.536
+epoch 300/1000, loss=0.338
+epoch 400/1000, loss=0.308
+epoch 500/1000, loss=0.176
+epoch 600/1000, loss=0.158
+epoch 700/1000, loss=0.110
+epoch 800/1000, loss=0.067
+epoch 900/1000, loss=0.033
+epoch 1000/1000, loss=0.064
+
+final Loss: 0.048

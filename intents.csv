@@ -1,0 +1,39 @@
+text,label
+Hi,greeting
+Hey,greeting
+How are you,greeting
+Howdy,greeting
+Is anyone there,greeting
+Hello,greeting
+Good day,greeting
+Yo,greeting
+Yooooooooo,greeting
+Bye,goodbye
+See you later,goodbye
+Goodbye,goodbye
+Thanks,thanks
+Thank you,thanks
+Thats helpful,thanks
+Thanks a lot,thanks
+Which items do you have,items
+What kinds of items are there,items
+What do you sell,items
+Do you take credit cards,payments
+Do you accept Mastercard,payments
+Can I pay with Paypal,payments
+Are you cash only,payments
+How long does delivery take,delivery
+How long does shipping take,delivery
+When do I get my delivery,delivery
+Tell me a joke,funny
+Tell me something funny,funny
+Do you know a joke,funny
+Do you like music,Music
+Whats your favorite song,Music
+Whats your favorite artist,Music
+Where am I,Places
+Are you here,Places
+Are you there,Places
+Who survived,Sad Machine
+Somebody new,Sad Machine
+Is anyone there,Sad Machine

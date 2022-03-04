@@ -77,6 +77,35 @@
         "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
         "What did the buffalo say when his son left for college? Bison."
       ]
+    },
+    {
+      "tag": "Music",
+      "patterns": [
+        "Do you like music?",
+        "What's your favorite song?",
+        "What's your favorite artist?"
+      ],
+      "responses": [
+        "Everything Brendon Urie has ever worked on is amazing",
+        "Have you heard of Brendon Urie? I still listen to A Fever You Can't Sweat Out!"
+      ]
+    },
+    {
+      "tag": "Places",
+      "patterns": ["Where am I?", "Are you here?", "Are you there?"],
+      "responses": [
+        "You're here.",
+        "You're with me...",
+        "I am here...with you."
+      ]
+    },
+    {
+      "tag": "Sad Machine",
+      "patterns": ["Who survived?", "Somebody new?", "Is anyone there?"],
+      "responses": [
+        "On a lonely night, Was a blinding light.....",
+        "You've awakended here again...."
+      ]
     }
   ]
 }
